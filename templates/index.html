@@ -8,34 +8,69 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to the House Price Predictor</h1>
-        <p>Enter house details to get a price prediction.</p>
-        
+        <h1>House Price Predictor</h1>
+        <p>Fill in the house details and select a house image to get a price prediction.</p>
+
         <!-- Form for input features -->
         <form action="{{ url_for('predict') }}" method="POST">
             <label for="feature1">Feature 1:</label>
             <input type="text" id="feature1" name="feature1" required>
-            
+
             <label for="feature2">Feature 2:</label>
             <input type="text" id="feature2" name="feature2" required>
-            
+
             <label for="feature3">Feature 3:</label>
             <input type="text" id="feature3" name="feature3" required>
-            
-            <!-- Image selection with a more visually appealing style -->
-            <label>Select a House Image:</label>
-            <div class="image-selection">
-                {% for image in images %}
-                    <label class="image-card">
-                        <input type="radio" name="house_image" value="{{ image }}" required>
-                        <img src="{{ url_for('static', filename='images/' + image) }}" alt="House Image {{ loop.index }}" class="house-image">
-                        <div class="checkmark">&#10003;</div>
-                    </label>
-                {% endfor %}
+
+            <!-- Hidden input to store selected image filename -->
+            <input type="hidden" name="house_image" id="selected-image-input" value="{{ images[0] }}">
+
+            <!-- Image selection area below form inputs -->
+            <div class="image-selection-container">
+                <div class="selected-image-wrapper">
+                    <img id="selected-image" src="{{ url_for('static', filename='images/' + images[0]) }}" alt="Selected House" class="selected-image">
+                </div>
+
+                <!-- Thumbnail images for selection -->
+                <div class="thumbnail-selection">
+                    {% for image in images %}
+                        <div class="thumbnail-wrapper">
+                            <img src="{{ url_for('static', filename='images/' + image) }}" 
+                                 alt="House Thumbnail {{ loop.index }}" 
+                                 class="thumbnail-image {% if loop.index == 1 %}selected{% endif %}" 
+                                 onclick="selectImage('{{ image }}')">
+                            <div class="checkmark-overlay {% if loop.index == 1 %}active{% endif %}">&#10003;</div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
 
+            <!-- Submit button at the bottom -->
             <button type="submit">Predict Price</button>
         </form>
     </div>
+
+    <!-- JavaScript to manage selected image display and check mark on thumbnail -->
+    <script>
+        function selectImage(imageName) {
+            // Update the main selected image display
+            const selectedImage = document.getElementById('selected-image');
+            const selectedImageInput = document.getElementById('selected-image-input');
+            selectedImage.src = `{{ url_for('static', filename='images/') }}${imageName}`;
+            selectedImageInput.value = imageName;
+
+            // Remove "active" class from all checkmarks
+            document.querySelectorAll('.checkmark-overlay').forEach(check => {
+                check.classList.remove('active');
+            });
+
+            // Add "active" class to the selected thumbnail's checkmark
+            document.querySelectorAll('.thumbnail-image').forEach((img, index) => {
+                if (img.src.includes(imageName)) {
+                    img.parentElement.querySelector('.checkmark-overlay').classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
