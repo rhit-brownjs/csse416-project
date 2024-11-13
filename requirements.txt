@@ -1,0 +1,7 @@
+Flask
+numpy
+xgboost
+pandas
+torch
+torchvision
+Pillow
