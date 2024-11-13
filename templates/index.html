@@ -66,19 +66,28 @@
             const selectedImageInput = document.getElementById('selected-image-input');
             selectedImage.src = `{{ url_for('static', filename='images/') }}${imageName}`;
             selectedImageInput.value = imageName;
-
-            // Remove "active" class from all checkmarks
+    
+            // Remove the "active" class from all checkmark overlays
             document.querySelectorAll('.checkmark-overlay').forEach(check => {
                 check.classList.remove('active');
             });
-
-            // Add "active" class to the selected thumbnail's checkmark
-            document.querySelectorAll('.thumbnail-image').forEach((img, index) => {
-                if (img.src.includes(imageName)) {
-                    img.parentElement.querySelector('.checkmark-overlay').classList.add('active');
+    
+            // Remove the "selected" class from all thumbnail images
+            document.querySelectorAll('.thumbnail-image').forEach(img => {
+                img.classList.remove('selected');
+            });
+    
+            // Find the clicked thumbnail and add the "active" class to its checkmark
+            document.querySelectorAll('.thumbnail-image').forEach(img => {
+                // Extract the filename from img.src for exact matching
+                const imgFilename = img.src.split('/').pop();
+                if (imgFilename === imageName) {
+                    img.classList.add('selected'); // Mark the selected thumbnail
+                    img.parentElement.querySelector('.checkmark-overlay').classList.add('active'); // Add checkmark
                 }
             });
         }
     </script>
+    
 </body>
 </html>
