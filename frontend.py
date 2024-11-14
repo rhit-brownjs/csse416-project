@@ -14,7 +14,7 @@ from torchvision.models import VGG16_Weights
 app = Flask(__name__)
 
 # List of available house images
-house_images = [f'{i}.jpg' for i in [4,38,44,48,89,227]]  # Adjust range based on the number of images
+house_images = [f'{i}.jpg' for i in [4,38,44,48,89,621]]  # Adjust range based on the number of images
 
 # Load the CSV file again
 data_updated = pd.read_csv('data/socal.csv')
