@@ -15,11 +15,17 @@ For the web application, using Visual Studio code, you can run frontend.py using
 
 ## Packages
 flask
+
 numpy
+
 xgboost
+
 pandas
+
 torch
+
 torchvision
+
 scikit-learn
 
 ## Data
