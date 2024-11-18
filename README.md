@@ -11,10 +11,14 @@ The Stretch notebook
 
 All notebooks can be run using the same method used to run all Jupyter Notebooks, simply hit the "Run All" button.
 
+Note: Before running the web application, ensure all external packages are installed. 
+
+This can be done efficiently by using the following command: "pip install -r requirements.txt" in the project's root directory
+
 For the web application, using Visual Studio code, you can run frontend.py using the "Run" button. The web app will be locally hosted on your machine at port 5000. The url given to you in the terminal should look like this: http://127.0.0.1:5000/
 
 ## Packages
-flask
+Flask
 
 numpy
 
@@ -27,6 +31,8 @@ torch
 torchvision
 
 scikit-learn
+
+Pillow
 
 ## Data
 The dataset came from Kaggle: https://www.kaggle.com/datasets/ted8080/house-prices-and-images-socal
