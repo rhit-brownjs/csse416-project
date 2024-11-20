@@ -1,4 +1,4 @@
-w# csse416-project
+# csse416-project
 
 ## Overview
 Our projecis for predicting the price of houses in Southern California.
