@@ -1,13 +1,13 @@
-# csse416-project
+w# csse416-project
 
 ## Overview
 Our projecis for predicting the price of houses in Southern California.
 
 The Minimum notebook predicts the price of a house based on square footage, city, number of beds, and number of baths. No image data is used for the minimum. This prediction beats the simple bias regressor.
 
-The Reasonable notebook
+The Reasonable notebook predicts the price of a house based on square footage, city, number of beds, number of baths and a house image. The image features are extracted using VGG16 and then concatenated with the textual features. XGBoost is used for regression to create predictions given the features. The RMSE beats that of our Minimum notebook which uses only textual features. 
 
-The Stretch notebook
+The Stretch notebook uses the saved model weights to load the XGBoost model and create a prediction. This is the basis of our flask website. 
 
 All notebooks can be run using the same method used to run all Jupyter Notebooks, simply hit the "Run All" button.
 
