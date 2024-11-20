@@ -14,7 +14,7 @@ from torchvision.models import VGG16_Weights
 app = Flask(__name__)
 
 # List of available house images
-house_images = [f'{i}.jpg' for i in [4,38,44,48,89,227]]  # Adjust range based on the number of images
+house_images = [f'{i}.jpg' for i in [4,38,44,48,89,621]]  # Adjust range based on the number of images
 
 # Load the CSV file again
 data_updated = pd.read_csv('data/socal.csv')
@@ -38,14 +38,14 @@ def predict_price(features, img):
         image = image.unsqueeze(0)  # Add batch dimension
         with torch.no_grad():
             features = model(image)
-        return features.numpy().flatten()
+        return features.numpy().flatten().reshape(1, -1)
 
     # Prepare the text features
     def preprocess_text_features(features):
         return np.array(features).reshape(1, -1)  # Ensure it is a 2D 
     
     # Load the pre-trained XGBoost model
-    xgb_model = xgb.Booster()
+    xgb_model = xgb.XGBRegressor()
     xgb_model.load_model("xgb_model.json")
 
     # Load the pretrained VGG16 model. Setting `pretrained=True` loads weights trained on ImageNet.
@@ -67,16 +67,12 @@ def predict_price(features, img):
     
     image_features = extract_features("data/socal_pics/" + img)
     text_features = preprocess_text_features(features)
-    
-    print("IMG ", img)
-    print("FEATS ", features) 
 
     # Concatenate all features
-    all_features = np.concatenate([image_features, text_features.flatten()])
+    all_features = np.hstack((text_features, image_features))
 
     # Predict with the XGBoost model
-    dtest = xgb.DMatrix(all_features.reshape(1, -1))
-    predicted_price = xgb_model.predict(dtest)
+    predicted_price = xgb_model.predict(all_features)
 
     return predicted_price[0]
 

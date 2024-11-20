@@ -1,0 +1,8 @@
+Flask
+numpy
+xgboost
+pandas
+torch
+torchvision
+Pillow
+scikit-learn
